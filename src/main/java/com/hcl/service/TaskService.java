@@ -1,5 +1,7 @@
 package com.hcl.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +14,16 @@ public class TaskService {
 	@Autowired
 	private TaskRepository taskRepo;
 	
-	public Task saveTask(Task t) {
-		
-		return taskRepo.save(t);	
+	public List<Task> findAll(){
+		return taskRepo.findAll();
+	}
+	public Task findByID(Long id) {
+		return taskRepo.getOne(id);
+	}
+	public void saveTask(Task t) {
+		taskRepo.save(t);	
+	}
+	public void deleteTask(Long id) {
+		taskRepo.deleteById(id);
 	}
 }

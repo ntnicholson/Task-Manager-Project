@@ -1,7 +1,9 @@
 package com.hcl.controller;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,6 +22,7 @@ import com.hcl.service.UserService;
 @ControllerAdvice
 public class UserController {
 
+	@Autowired
 	private UserService uService;
 
 	@GetMapping(value = "login")
@@ -29,18 +32,18 @@ public class UserController {
 	}
 
 	@PostMapping(value = "login")
-	public String login(@Validated @ModelAttribute("user") User u, HttpSession session) {
+	public String login(@Valid @ModelAttribute("user") User u, HttpSession session) {
 
-		User currentUser = new User();
+		//User currentUser = new User();
+		u = uService.loginValid(u.getEmail(), u.getPassword());
+//		try {
+//			
+//		} catch (Exception e) {
+//			currentUser = new User(777, "Nick", "n@mail.com", "pass");
+//			e.printStackTrace();
+//		}
 
-		try {
-			u = uService.loginValid(u.getEmail(), u.getPassword());
-		} catch (Exception e) {
-			currentUser = new User(777, "Nick", "n@mail.com", "pass");
-			e.printStackTrace();
-		}
-
-		session.setAttribute("currentsess", currentUser.getName());
+		session.setAttribute("currentsess", u.getName());
 		//session.setAttribute("currentUser", currentUser);
 
 		return "redirect:/dashboard";

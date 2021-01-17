@@ -14,8 +14,9 @@
 <h1>Hello</h1>
 <% out.print(name); %>
 <br/>
+<a href="task/display"><button>Display Task</button></a>
 <a href="task/create"><button>Create Task</button></a>
-<a><button>Delete Tasks</button></a>
-<a><button>Update Task</button></a>
+<a href="task/delete"><button>Delete Tasks</button></a>
+<a href="task/update"><button>Update Task</button></a>
 </body>
 </html>
