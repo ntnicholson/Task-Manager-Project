@@ -16,7 +16,7 @@
 
 <body>
 	<div class="">
-		<form>
+		<form method="post">
 			<div class="input-group mb-3">
 				<span class="input-group-text" id="basic-addon1">Task</span>
 				<input type="text" name="name" required><br />

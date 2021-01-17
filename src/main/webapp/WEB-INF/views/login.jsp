@@ -9,7 +9,7 @@
 </head>
 <body>
 <form:form method="POST" action="/login" modelAttribute="user">
-    <form:label path="email">Name</form:label>
+    <form:label path="email">Email</form:label>
     <form:input path="email" />
     
     <form:label path="password">Password</form:label>
