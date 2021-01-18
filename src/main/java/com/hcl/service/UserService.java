@@ -12,25 +12,27 @@ import com.hcl.repository.UserRepository;
 public class UserService {
 	@Autowired
 	private UserRepository userRepo;
-
-	public User loginValid(String email, String password) {
-
-		List<User> loginList = userRepo.findByEmailAndPassword(email, password);
-		
-		for(User u:loginList) {
-			u.toString();
-		}
-
-		return new User(777, "Nick", "n@mail.com", "pass");
+	
+	public void register(User r)
+	{
+		userRepo.save(r);
 	}
-//	public boolean loginValid(String email, String password) {
-//	
-//	
-//	if (userRepo.findByEmailAndPassword(email == null){
-//		
-//	}
-//	else {
-//		return userRepo.findByEmailAndPassword(u.getEmail(), u.getPassword();
-//	}
+	public boolean loginValid(User u) {
+
+		User login = userRepo.findByEmailAndPassword(u.getEmail(), u.getPassword());
+		
+		if (login.equals(null)) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	public User loginUser(User u) {
+	
+		User login = userRepo.findByEmailAndPassword(u.getEmail(), u.getPassword());
+		return login;
+	
+	}
 
 }

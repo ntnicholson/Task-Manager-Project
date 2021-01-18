@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
@@ -30,6 +32,9 @@ public class TaskController {
 	
 	@Autowired
 	TaskService taskService = new TaskService();
+	
+	@Autowired
+	EntityManager em;
 
 	//Display
 	@GetMapping(value="/display")
@@ -41,10 +46,10 @@ public class TaskController {
 		return new ModelAndView("DisplayTasks", "taskList", display);
 	}
 	@PostMapping(value="/display")
-	public String displayTask(@PathParam("id") String id, @PathParam("manage") String redirect, RedirectAttributes forward) 
+	public String displayTask(@PathParam("id") String id, @RequestParam("manage") String redirect, RedirectAttributes forward) 
 	{
 
-		if (redirect == "Delete") {
+		if (redirect.equals("Delete")) {
 			forward.addAttribute("id", id);
 			return "redirect:/task/delete/{id}";
 		}
@@ -61,22 +66,23 @@ public class TaskController {
 		Task t = new Task();
 		return new ModelAndView("CreateTask", "newTask", t);
 	}
-	@PostMapping(value="/create")
+	@PostMapping(value="/create") @Transactional
 	public String saveTask(@Valid @ModelAttribute("newTask") Task t, BindingResult bindingResult, 
 			Model model) {
 		
-		taskService.saveTask(t);
+		em.persist(t);
+		//taskService.saveTask(t);
 		return"redirect:/dashboard";
 	}
 	
 	//Delete
-	@GetMapping(value="/delete/{id}")
+	@GetMapping(value="/delete/{id}") 
 	public ModelAndView deleteTask(@PathVariable("id") Long id) 
 	{
 		Task t = taskService.findByID(id);
-		return new ModelAndView("DeleteTask", "task", t);
+		return new ModelAndView("DeleteTasks", "task", t);
 	}
-	@PostMapping(value="/delete/")
+	@PostMapping(value="/delete/{id}") @Transactional
 	public String delete(@PathVariable("id") Long id) {
 		
 		taskService.deleteTask(id);
@@ -89,11 +95,12 @@ public class TaskController {
 		Task t = taskService.findByID(id);
 		return new ModelAndView("UpdateTask", "task", t);
 	}
-	@PostMapping(value="/update")
+	@PostMapping(value="/update/{id}") @Transactional
 	public String updateTask(@Valid @ModelAttribute("newTask") Task t, BindingResult bindingResult, 
 			Model model) {
 		
-		taskService.saveTask(t);
+		//taskService.saveTask(t);
+		em.merge(t);
 		return"redirect:/dashboard";
 	}
 }

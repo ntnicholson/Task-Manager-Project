@@ -25,6 +25,19 @@ public class UserController {
 	@Autowired
 	private UserService uService;
 
+	@GetMapping(value = "register")
+	public ModelAndView register() {
+		User u = new User();
+		return new ModelAndView("Register", "user", u);
+	}
+
+	@PostMapping(value = "register")
+	public String register(@Valid @ModelAttribute("user") User u) {
+
+		uService.register(u);
+
+		return "redirect:/home";
+	}
 	@GetMapping(value = "login")
 	public ModelAndView login() {
 		User u = new User();
@@ -34,20 +47,18 @@ public class UserController {
 	@PostMapping(value = "login")
 	public String login(@Valid @ModelAttribute("user") User u, HttpSession session) {
 
-		//User currentUser = new User();
-		u = uService.loginValid(u.getEmail(), u.getPassword());
-//		try {
-//			
-//		} catch (Exception e) {
-//			currentUser = new User(777, "Nick", "n@mail.com", "pass");
-//			e.printStackTrace();
-//		}
-
-		session.setAttribute("currentsess", u.getName());
-		//session.setAttribute("currentUser", currentUser);
-
-		return "redirect:/dashboard";
-
+		boolean userFound = uService.loginValid(u);
+		
+		if (userFound == true) {
+			u = uService.loginUser(u);
+			//session.setAttribute("currentUser", currentUser);
+			session.setAttribute("currentsess", u.getName());
+			return "redirect:/dashboard";
+			
+		} else {
+			return "redirect:/home";
+		}
+		
 	}
 
 	@GetMapping(value = "dashboard")
@@ -58,7 +69,7 @@ public class UserController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 
-		return "redirect:index";
+		return "redirect:/home";
 	}
 	// Not working, throwing null error
 //	@PostMapping(value = "login")

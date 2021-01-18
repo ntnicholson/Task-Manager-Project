@@ -5,12 +5,15 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<%@ include file="bootstrap.html"%>
 <title>Display Tasks</title>
 </head>
 <body>
-<div>
+<jsp:include page="HelloUser.jsp" />
+<br/>
+<div class="container">
 <form method="post">
-	<table>
+	<table class="table table-striped">
 		<tbody>
 			<tr>
 				<th>ID</th>
@@ -38,25 +41,17 @@
 	</table>
 	<br>
 	<br>
-	<div>
-	<button type="submit" name="manage" value="Delete">Delete Task</button>
-	<button type="submit" name="manage" value="Update">Update Task</button>
+	<div class="btn">
+	<button  type="submit" name="manage" value="Delete" class="btn btn-danger">Delete Task</button>
+	</div>
+	<div class="btn">
+	<button type="submit" name="manage" value="Update" class="btn btn-primary">Update Task</button>
 	</div>
 </form>
-<a href="/task/create"><button type="submit" name="manage" value="Create">Create Task</button></a>
+<div class="btn">
+<a href="/task/create"><button type="submit" name="manage" value="Create" class="btn btn-success">Create Task</button></a>
 </div>
-	
-<!-- 	<form method="post" action="/task/delete"> -->
-<!-- 	<button type="submit">Delete Tasks</button> -->
-<!-- 	</form> -->
-<!-- 	<form method="get" action="/task/update"> -->
-<!-- 	<button type="submit">Update Task</button> -->
-<!-- 	</form> -->
-	
-
+</div>
+</div>
 </body>
 </html>
-<%-- 	<c:forEach items="${taskList}" var="taskList"> --%>
-<%-- 		<c:out value="${taskList}" /> --%>
-<%-- 		<%--    <c:out value="${taskList.startDate}"/> --%>
-<%-- 	</c:forEach> --%>

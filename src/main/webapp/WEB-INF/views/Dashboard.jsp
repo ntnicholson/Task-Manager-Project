@@ -8,15 +8,20 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<%@ include file="bootstrap.html"%>
 <title>Dashboard</title>
 </head>
 <body>
-<h1>Hello</h1>
-<% out.print(name); %>
-<br/>
-<a href="task/display"><button>Display Task</button></a>
-<a href="task/create"><button>Create Task</button></a>
-<a href="task/delete"><button>Delete Tasks</button></a>
-<a href="task/update"><button>Update Task</button></a>
+ <jsp:include page="HelloUser.jsp" />
+<br/><br/>
+<div class="container d-flex justify-content-center align-items-center">
+
+<div class="btn"><a href="task/display"><button type="button" class="btn btn-primary">Display Task</button></a><div>
+<div class="btn"><a href="task/create"><button type="button" class="btn btn-success">Create Task</button></a></div>
+<div class="btn"><a href="#"><button type="button" class="btn btn-danger">Delete Tasks</button></a></div>
+<div class="btn"><a href="#"><button type="button" class="btn btn-info">Update Task</button></a></div>
+
+</div>
+
 </body>
 </html>
